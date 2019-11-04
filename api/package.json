@@ -1,0 +1,17 @@
+{
+  "name": "drivetime-api",
+  "version": "1.0.0",
+  "description": "Api for the drivetime application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Nsoesie",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  },
+  "dependencies": {
+    "mysql": "^2.17.1"
+  }
+}
