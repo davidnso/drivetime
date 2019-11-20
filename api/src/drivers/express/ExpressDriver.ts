@@ -11,7 +11,6 @@ export class ExpressDriver{
         this.app.use(bparse.urlencoded({extended: true}));
         this.app.use(cors({origin: true, credentials: true}));
         this.app.use(cookieParser());
-        this.app.use('trust proxy', true);
         this.app.use(ExpressRouteDriver.buildRouter());
         return this.app;
     }
