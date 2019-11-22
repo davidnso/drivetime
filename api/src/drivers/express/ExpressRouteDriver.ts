@@ -28,6 +28,7 @@ export class ExpressRouteDriver {
     });
     this.router.post("/user/register", createNewUser);
     this.router.get("/user/login", login);
+    this.router.get('/user/search/customers', searchCustomers);
   }
 
   static initReservationRoutes() {
@@ -78,6 +79,21 @@ async function reserve(req: Request, res: Response, next: NextFunction) {
   const vehicleId = req.params.id;
 }
 
+async function placeByOrder(req:Request, res: Response, next: NextFunction){
+    const info = {
+        requester: req.body.requesterId,
+        vehicleId: req.body.vehicleId,
+    }
+    try{
+        if(info){
+            await handler.buy({buyInfo: info})
+            res.status(200).send('Buy order placed.');
+        }
+    }catch(err){
+        res.status(404).send('Buy order not placed');
+    }
+}
+
 
 async function searchVehicles(req: Request,res:Response,next:NextFunction){
     try {
@@ -95,6 +111,27 @@ async function searchVehicles(req: Request,res:Response,next:NextFunction){
       }
 }
 
+async function searchCustomers(req: Request, res:Response, next: NextFunction){
+  try{
+    const query = req.query.type;
+    const requester = req.body.id;
+    handler.searchCustomers(requester, query, function(err:Error, response: any){
+      if(err){
+        console.log(err);
+      }
+      if(response){
+        res.status(200).send(response);
+      }
+    })
+  }catch(err){
+    res.status(404).json({Error: 'Customers not found'})
+  }
+}
+
 async function findVehicleById(params:httpParams){
     
+}
+
+async function viewManufacturers(params:any ){
+
 }

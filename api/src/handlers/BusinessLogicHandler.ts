@@ -40,7 +40,12 @@ export async function createUserAccount(params: { user: User }) {
      * email
      * */
     const newUser = new User(user);
-    await dataStore.createUser(newUser);
+    await dataStore.createUser(newUser, function(data:any){
+      const result = data;
+      if(data){
+        return 'success';
+      }
+    });
   } catch (err) {
     throw err;
   }
@@ -56,11 +61,15 @@ export async function buy(params: { buyInfo: BuyInfo }) {
   }
 }
 
-export async function search(params: {query: any, requester: any}){
-    const {query, requester } = params;
+export async function searchCustomers(requester:string,query: any, callback:Function){
+  //add type cast to query object... 
     if(!query){
         //search all
-       // await dataStore.search();
+       dataStore.fetchAllCustomers((err:Error, response: any)=>{
+         if(response){
+          return callback(null,response);
+         }
+       });
     }else{
        // await dataStore.search(query);
     }
